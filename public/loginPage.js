@@ -1,14 +1,22 @@
-'use strict';
+const userForm  = new UserForm();
 
-const { response } = require("express");
+userForm.loginFormCallback = data => {
+    ApiConnector.login(data, response => {
+        if (response.success) {
+            location.reload();
+        } else {
+            userForm.setLoginErrorMessage(response.error);
+        };
+    });
+};
 
-const userForm  = new UserForm;
 
-function loginFormAction(data) {
-    
-    ApiConnector.login(data, () => response);
-}
-
-userForm.loginFormCallback = data => loginFormAction(data);
-
-userForm.registerFormCallback = data => ApiConnector.register(data, () => response);
+userForm.registerFormCallback = data => {
+    ApiConnector.register(data, response => { 
+        if (response.success) {
+            location.reload();
+        } else {
+            userForm.setLoginErrorMessage(response.error);
+        };
+    }
+ )};
